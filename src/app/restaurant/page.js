@@ -1,11 +1,30 @@
-import RestaurantLogin from "@/app/_components/restaurantLogin";
+"use client"
+import RestaurantLogin from "@/app/_components/RestaurantLogin";
+import RestaurantSignUp from "@/app/_components/RestaurantSignUp";
+import {useState} from "react";
 
 const Restaurant = () => {
+    const [login, setLogin] = useState(true);
+
+
     return (
-        <div>
-            <h1>HI</h1>
-            <RestaurantLogin/>
-        </div>
+        <>
+            <div className="container">
+                <h1>Restaurant login/signup</h1>
+                {
+                    login ? <RestaurantLogin/> : <RestaurantSignUp/>
+                }
+                <div>
+                    <button
+                        onClick={() => setLogin(!login)}
+                        className="button-link"
+                    >
+                        {!login ? 'Already have account ? login' : 'do not have any account? signUp'}
+                    </button>
+                </div>
+
+            </div>
+        </>
     )
 }
 

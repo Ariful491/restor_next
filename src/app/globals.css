@@ -1,3 +1,4 @@
+/*
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -104,4 +105,32 @@ a {
   html {
     color-scheme: dark;
   }
+}
+*/
+
+
+.input-wrapper {
+    margin: 10px;
+}
+
+.button, .input-field {
+    width: 200px;
+    height: 30px;
+}
+
+.container {
+    text-align: center;
+}
+
+.button-link {
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+    color: #073c52;
+    font-weight: bolder;
+    margin: 20px;
+}
+
+.dropdown-item:active {
+    background-color: #198754;
 }

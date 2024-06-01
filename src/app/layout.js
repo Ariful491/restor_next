@@ -1,5 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.css'
 import { Inter } from "next/font/google";
 import "./globals.css";
+import BoostrapClient from "@/app/_components/BootstrapClient";
+import RestaurantHeader from "@/app/_components/RestaurantHeader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+
+      <body className={inter.className}>
+      <RestaurantHeader/>
+      {children}
+      <BoostrapClient/>
+      </body>
     </html>
   );
 }
