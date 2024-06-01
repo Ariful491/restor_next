@@ -5,9 +5,9 @@ const RestaurantLogin = () => {
         <>
             <Container>
                 <Row>
-                    <Col md='6' className='mx-auto'>
+                    <Col md='6' className='ms-auto' >
                         <div>
-                            <Card className='shadow-lg mt-4   rounded-3'>
+                            <Card className='shadow-lg mt-4  bg-white bg-opacity-75 rounded-3'>
                                 <div className='card-header bg-success bg-opacity-75 text-white shadow   p-2 mb-4 rounded-3'>
                                     <h4>Login</h4>
                                 </div>

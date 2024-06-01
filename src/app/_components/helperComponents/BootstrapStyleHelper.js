@@ -26,7 +26,6 @@ export const Col = ({children, md = null, xl = null, sm = null, className = '', 
     if (sm) classes.push(`col-sm-${sm}`);
     const combinedClassName = `${classes.join(' ')} ${className}`.trim();
 
-    console.log(rest)
 
     return (
         <>
