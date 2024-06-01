@@ -134,3 +134,7 @@ a {
 .dropdown-item:active {
     background-color: #198754;
 }
+
+body {
+    overflow-x: hidden;
+}
