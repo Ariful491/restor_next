@@ -19,7 +19,7 @@ export const Container = ({children}) => {
     )
 }
 
-export const Col = ({children, md = null, xl = null, sm = null,className = '', ...rest}) => {
+export const Col = ({children, md = null, xl = null, sm = null, className = '', ...rest}) => {
     const classes = [];
     if (md) classes.push(`col-md-${md}`);
     if (xl) classes.push(`col-xl-${xl}`);
@@ -34,5 +34,16 @@ export const Col = ({children, md = null, xl = null, sm = null,className = '', .
                 {children}
             </div>
         </>
+    )
+}
+
+
+export const Card = ({children, ...rest}) => {
+    return (
+        <div className="card" {...rest}>
+           <div className='card-body p-3 '>
+               {children}
+           </div>
+        </div>
     )
 }
