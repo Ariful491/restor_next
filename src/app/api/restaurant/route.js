@@ -13,5 +13,18 @@ export async function GET() {
 
         return NextResponse.json({result: error})
     }
+}
+
+
+export async function POST(request) {
+    try {
+        await dbConnect();
+        const payload = await request.json();
+        const user = new userSchema(payload);
+        const savedUser = await user.save();
+        return NextResponse.json({result: savedUser, success: true});
+    } catch (error) {
+        return NextResponse.json({error: error.message, success: false});
+    }
 
 }

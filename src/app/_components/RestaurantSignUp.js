@@ -1,19 +1,34 @@
 import {Card, Col, Container, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
+
 
 const RestaurantSignUp = () => {
+    const router = useRouter();
+
     const [name, setName] = useState('');
     const [restaurantName, setRestaurantName] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
-    const [number, setNumber] = useState('');
+    const [contact, setContact] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
 
-    const handleSingUp = () => {
-        console.log(name, restaurantName, city, address, number, email, password, confirmPassword);
+    const handleSingUp = async () => {
+        let response = await fetch("http://localhost:3000/api/restaurant", {
+            method: "POST",
+            body: JSON.stringify({name, restaurantName, city, address, contact, email, password})
+        })
+        response = await response.json();
+        if (response.success) {
+            alert("Restaurant success fully signup .")
+            const {result} = response;
+            delete result.password;
+            localStorage.setItem('user', JSON.stringify(result));
+            router.push('/restaurant/dashboard');
+        }
     }
 
 
@@ -58,8 +73,8 @@ const RestaurantSignUp = () => {
                                 </div>
                                 <div className="p-1 m-1">
                                     <input type="text"
-                                           value={number}
-                                           onChange={(e) => setNumber(e.target.value)}
+                                           value={contact}
+                                           onChange={(e) => setContact(e.target.value)}
                                            className="form-control" placeholder="Enter contact number "/>
                                 </div>
 

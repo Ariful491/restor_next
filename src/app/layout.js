@@ -21,10 +21,9 @@ export default function RootLayout({children}) {
         <html lang="en">
 
         <body className={inter.className}>
-        <RestaurantHeader/>
+
         {children}
-        <Footer/>
-        <BoostrapClient/>
+
         </body>
         </html>
     );

@@ -15,7 +15,8 @@ const UserModel = new mongoose.Schema({
     },
     city: String,
     address: String,
-    contact: String
+    contact: String,
+    restaurantName: String,
 });
 
 export const userSchema = mongoose.models.User || mongoose.model('User', UserModel);
