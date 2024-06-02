@@ -20,6 +20,13 @@ const RestaurantHeader = () => {
     }, []);
 
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        setUserDetails(null);
+        router.push('/restaurant');
+    }
+
+
     return (
         <>
             <div>
@@ -85,11 +92,12 @@ const RestaurantHeader = () => {
                                             <ul className="dropdown-menu  w-25 border-0 shadow-sm  rounded-2"
                                                 aria-labelledby="navbarDropdown">
                                                 <li><Link className="dropdown-item"
-                                                       href="/restaurant/dashboard">Dashboard</Link></li>
+                                                          href="/restaurant/dashboard">Dashboard</Link></li>
                                                 <li><a className="dropdown-item" href="#">Profile</a></li>
 
                                                 <li className='dropdown-divider'></li>
-                                                <li><a className="dropdown-item" href="#">Logout</a></li>
+                                                <li><a className="dropdown-item" onClick={handleLogout}
+                                                       href="JAVASCRIPT:void(0)">Logout</a></li>
                                             </ul>
                                         </li>
                                 }
