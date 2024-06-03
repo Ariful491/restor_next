@@ -1,18 +1,21 @@
 "use client"
 import Link from "next/link";
 import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+import {useRouter, usePathname} from "next/navigation";
 
 const RestaurantHeader = () => {
 
     const router = useRouter();
+    const userPathName = usePathname();
     const [userDetails, setUserDetails] = useState();
 
     useEffect(() => {
         let data = localStorage.getItem('user');
 
-        if (!data) {
+        if (!data && userPathName === '/restaurant/dashboard') {
             router.push('/restaurant');
+        } else if (data && userPathName === '/restaurant') {
+            router.push('/restaurant/dashboard');
         } else {
             setUserDetails(JSON.parse(data));
         }
@@ -97,7 +100,7 @@ const RestaurantHeader = () => {
 
                                                 <li className='dropdown-divider'></li>
                                                 <li><a className="dropdown-item" onClick={handleLogout}
-                                                       href="JAVASCRIPT:void(0)">Logout</a></li>
+                                                       href="#">Logout</a></li>
                                             </ul>
                                         </li>
                                 }
