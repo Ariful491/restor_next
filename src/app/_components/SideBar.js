@@ -30,6 +30,13 @@ const sideBar = () => {
                                             Add Food
                                         </li>
                                     </Link>
+
+                                    <Link href="/restaurant/food/list"
+                                          className="bg-success  bg-opacity-75  text-decoration-none text-white rounded-2 ">
+                                        <li className="list-group-item border-0 text-white text-decoration-none  bg-transparent">
+                                              Food List
+                                        </li>
+                                    </Link>
                                 </ul>
                             </div>
                         </div>

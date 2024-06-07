@@ -2,6 +2,7 @@
 
 import {Card, Col, Container, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 
 const AddFoodItems = () => {
 
@@ -10,7 +11,7 @@ const AddFoodItems = () => {
     const [img_path, setFoodPath] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState(false);
-
+    const router = useRouter();
 
     const handleForm = async (e) => {
         e.preventDefault();
@@ -31,8 +32,9 @@ const AddFoodItems = () => {
         response = await response.json();
         if (response.success) {
             alert("Food item add  successfully .")
-            const {result} = response;
-            console.log(result);
+            // const {result} = response;
+            // console.log(result);
+            router.push('/restaurant/food/list')
 
         }
 
@@ -49,18 +51,35 @@ const AddFoodItems = () => {
                                     <h4>Add New Food Item</h4>
                                     <div className={'card-body'}>
                                         <div className="input-group mb-3">
+
                                             <span className="input-group-text" id="basic-addon1">Food Name</span>
                                             <input type="text" className="form-control" placeholder="Food Name"
                                                    value={food_name}
                                                    onChange={(e) => setFoodName(e.target.value)}
                                             />
+
                                         </div>
+                                        <div className={'text-start mb-3'}>
+                                            {
+                                                error && !food_name ?
+                                                    <span className={'text-danger'}>Name is required.</span>
+                                                    : ''
+                                            }
+                                        </div>
+
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Price</span>
                                             <input type="text" className="form-control" placeholder="Price"
                                                    value={food_price}
                                                    onChange={(e) => setFoodPrice(e.target.value)}
                                             />
+                                        </div>
+                                        <div className={'text-start mb-3'}>
+                                            {
+                                                error && !food_price ?
+                                                    <span className={'text-danger'}>Price is required.</span>
+                                                    : ''
+                                            }
                                         </div>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Path</span>
@@ -69,12 +88,26 @@ const AddFoodItems = () => {
                                                    onChange={(e) => setFoodPath(e.target.value)}
                                             />
                                         </div>
+                                        <div className={'text-start mb-3'}>
+                                            {
+                                                error && !img_path ?
+                                                    <span className={'text-danger'}>Image is required.</span>
+                                                    : ''
+                                            }
+                                        </div>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Description</span>
                                             <input type="text" className="form-control" placeholder="Description"
                                                    value={description}
                                                    onChange={(e) => setDescription(e.target.value)}
                                             />
+                                        </div>
+                                        <div className={'text-start mb-3'}>
+                                            {
+                                                error && !description ?
+                                                    <span className={'text-danger'}>Description is required.</span>
+                                                    : ''
+                                            }
                                         </div>
 
                                         <div className={'text-center'}>
