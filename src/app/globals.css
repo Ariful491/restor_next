@@ -141,7 +141,7 @@ body {
 
 .side-bar {
     position: absolute;
-    width: 250px;
+    width: 230px;
     height: 100vh;
     overflow-y:scroll;
     background-color: #198754;
@@ -151,4 +151,9 @@ body {
     color: white;
     border: none;
 
+}
+
+
+.left-nav-visible{
+    margin-left: 260px;
 }

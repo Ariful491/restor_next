@@ -1,15 +1,16 @@
-import AppLayout from "@/app/_components/layouts/App";
+
+import AuthLayout from "@/app/_components/layouts/Auth";
 
 const Dashboard = () => {
     return (
         <>
-            <AppLayout>
+            <AuthLayout>
                 <div className='text-center'>
                     <h1>
                         Dashboard...........
                     </h1>
                 </div>
-            </AppLayout>
+            </AuthLayout>
         </>
     )
 }

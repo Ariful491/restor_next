@@ -7,7 +7,7 @@ const AppLayout = ({children}) => {
         <>
             <RestaurantHeader/>
             {children}
-            <Footer/>
+            <Footer />
             <BoostrapClient/>
         </>
     )
