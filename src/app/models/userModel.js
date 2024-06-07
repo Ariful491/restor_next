@@ -19,4 +19,4 @@ const UserModel = new mongoose.Schema({
     restaurantName: String,
 });
 
-export const userSchema = mongoose.models.User || mongoose.model('User', UserModel);
+export const userSchema = mongoose.models.users || mongoose.model('users', UserModel);
