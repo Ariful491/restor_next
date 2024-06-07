@@ -15,17 +15,18 @@ const AddFoodItems = () => {
     const handleForm = async (e) => {
         e.preventDefault();
 
-
-        if (!food_name || !img_path || !food_price ||  !description) {
+        if (!food_name || !img_path || !food_price || !description) {
             setError(true)
             return null;
         } else {
             setError(false);
         }
+        const user_id = JSON.parse(localStorage.getItem('user'))._id;
+
 
         let response = await fetch("http://localhost:3000/api/restaurant/food", {
             method: "POST",
-            body: JSON.stringify({food_name, img_path, food_price, description})
+            body: JSON.stringify({food_name, img_path, food_price, description, user_id})
         })
         response = await response.json();
         if (response.success) {
