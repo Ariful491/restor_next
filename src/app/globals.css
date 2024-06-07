@@ -138,3 +138,17 @@ a {
 body {
     overflow-x: hidden;
 }
+
+.side-bar {
+    position: absolute;
+    width: 250px;
+    height: 100vh;
+    overflow-y:scroll;
+    background-color: #198754;
+}
+.side-bar .accordion .accordion-button   {
+    background-color: rgba(25, 135, 84, 0.87) !important;
+    color: white;
+    border: none;
+
+}
