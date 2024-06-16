@@ -32,8 +32,6 @@ const AddFoodItems = () => {
         response = await response.json();
         if (response.success) {
             alert("Food item add  successfully .")
-            // const {result} = response;
-            // console.log(result);
             router.push('/restaurant/food/list')
 
         }

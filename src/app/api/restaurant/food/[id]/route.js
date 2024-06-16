@@ -5,29 +5,25 @@ import dbConnect from "@/app/lib/db";
 
 export async function GET(request, content) {
 
-    return NextResponse.json({result: content});
+    const id = content.params.id;
+    await dbConnect();
+    const food = await foodSchema.findById(id);
+    return NextResponse.json({result: food});
 
-    /* await dbConnect();
-     try {
-         const foods = await foodSchema.find({});
-         return NextResponse.json({result: foods})
-     } catch (error) {
-         return NextResponse.json({result: error})
-     }*/
 }
 
 
 export async function POST(request, content) {
-    // try {
-    //     await dbConnect();
-    //     const payload = await request.json();
-    //     console.log(payload)
-    //     const food = new foodSchema(payload);
-    //     const saveFood = await food.save();
-    //     return NextResponse.json({result: saveFood, success: true});
-    // } catch (error) {
-    //     let errorMessage = !error.message ? error : error.message;
-    //     return NextResponse.json({error: errorMessage, success: false});
-    // }
+    try {
+        await dbConnect();
+        const payload = await request.json();
+        const id = content.params.id;
+        const food = await foodSchema.findById(id);
+        const saveFood = await food.save();
+        return NextResponse.json({result: saveFood, success: true});
+    } catch (error) {
+        let errorMessage = !error.message ? error : error.message;
+        return NextResponse.json({error: errorMessage, success: false});
+    }
 
 }
