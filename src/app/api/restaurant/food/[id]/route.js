@@ -14,9 +14,7 @@ export async function GET(request, content) {
 }
 
 export async function DELETE(request, content) {
-
     const id = content.params.id;
-    console.log('id:' + id)
     await dbConnect();
     const result = await foodSchema.deleteOne({'_id': id});
     return NextResponse.json({result: result});

@@ -37,7 +37,7 @@ const Page = () => {
                                     <h4>Food List</h4>
                                 </div>
                                 <div className="card-body table-responsive">
-                                  <FoodList foodItems={foodItems} />
+                                    <FoodList foodItems={foodItems} callback={loadFoodItems}/>
                                 </div>
                             </Card>
                         </Col>

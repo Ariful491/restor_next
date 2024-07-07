@@ -1,10 +1,21 @@
 import React from 'react';
 
 
-const FoodList = ({foodItems}) => {
+const FoodList = ({foodItems, callback}) => {
 
-    const removeItem = (id) => {
-           alert(id)
+    const removeItem = async (id) => {
+        try {
+            let response = await fetch("http://localhost:3000/api/restaurant/food/" + id, {
+                method: "DELETE",
+            });
+            let data = await response.json();
+            if (data) {
+                alert("DELETED successfully.")
+            }
+            callback()
+        } catch (error) {
+            console.error("Failed to load food items", error);
+        }
     }
 
 
@@ -34,8 +45,9 @@ const FoodList = ({foodItems}) => {
                              style={{width: '50px'}}/>
                     </td>
                     <td>
-                        <button className="btn btn-success btn-sm mx-2" >Edit</button>
-                        <button className="btn btn-success btn-sm">Delete</button>
+                        <button className="btn btn-success btn-sm mx-2">Edit
+                        </button>
+                        <button className="btn btn-success btn-sm" onClick={() => removeItem(item._id)}>Delete</button>
                     </td>
                 </tr>
             ))}
