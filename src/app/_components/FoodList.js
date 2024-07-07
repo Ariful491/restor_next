@@ -1,8 +1,9 @@
 import React from 'react';
+import {useRouter} from "next/navigation";
 
 
 const FoodList = ({foodItems, callback}) => {
-
+    const router = useRouter();
     const removeItem = async (id) => {
         try {
             let response = await fetch("http://localhost:3000/api/restaurant/food/" + id, {
@@ -16,6 +17,10 @@ const FoodList = ({foodItems, callback}) => {
         } catch (error) {
             console.error("Failed to load food items", error);
         }
+    }
+
+    const handleEdit = (id) => {
+        router.push('/restaurant/food/' + id);
     }
 
 
@@ -45,7 +50,7 @@ const FoodList = ({foodItems, callback}) => {
                              style={{width: '50px'}}/>
                     </td>
                     <td>
-                        <button className="btn btn-success btn-sm mx-2">Edit
+                        <button className="btn btn-success btn-sm mx-2" onClick={() => handleEdit(item._id)}>Edit
                         </button>
                         <button className="btn btn-success btn-sm" onClick={() => removeItem(item._id)}>Delete</button>
                     </td>
