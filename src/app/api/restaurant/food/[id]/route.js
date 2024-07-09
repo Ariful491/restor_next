@@ -28,6 +28,12 @@ export async function POST(request, content) {
         const payload = await request.json();
         const id = content.params.id;
         const food = await foodSchema.findById(id);
+
+        food.food_name = payload.foodName || food.food_name;
+        food.food_price = payload.foodPrice || food.food_price;
+        food.img_path = payload.foodPath || food.foodPath;
+        food.description = payload.Description || food.description;
+
         const saveFood = await food.save();
         return NextResponse.json({result: saveFood, success: true});
     } catch (error) {

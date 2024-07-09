@@ -4,12 +4,20 @@ import {Card, Col, Container, Row} from "@/app/_components/helperComponents/Boot
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 
-const EditFoodItem = ({foodItem}) => {
+const EditFoodItem = ({foodItem = {}}) => {
 
-    const [food_name, setFoodName] = useState('');
-    const [food_price, setFoodPrice] = useState(0);
-    const [img_path, setFoodPath] = useState('');
-    const [description, setDescription] = useState('');
+    const {
+        food_name = '',
+        food_price = 0,
+        img_path = '',
+        description = '',
+        _id = ''
+    } = foodItem;
+
+    const [foodName, setFoodName] = useState('');
+    const [foodPrice, setFoodPrice] = useState('');
+    const [foodPath, setFoodPath] = useState('');
+    const [Description, setDescription] = useState('');
     const [error, setError] = useState(false);
     const router = useRouter();
 
@@ -17,20 +25,24 @@ const EditFoodItem = ({foodItem}) => {
     const handleForm = async (e) => {
         e.preventDefault();
 
-        if (!food_name || !img_path || !food_price || !description) {
+
+
+        if (!foodName || !foodPath || !foodPrice || !Description ) {
             setError(true)
             return null;
         } else {
             setError(false);
         }
-        const user_id = JSON.parse(localStorage.getItem('user'))._id;
 
 
-        let response = await fetch("http://localhost:3000/api/restaurant/food/" + foodItem._id, {
+
+        let response = await fetch("http://localhost:3000/api/restaurant/food/" + _id, {
             method: "POST",
-            body: JSON.stringify({food_name, img_path, food_price, description, user_id})
+            body: JSON.stringify({foodName, foodPrice, foodPath, Description})
         })
         response = await response.json();
+
+
         if (response.success) {
             alert("Food item add  successfully .")
             router.push('/restaurant/food/list')
@@ -40,11 +52,12 @@ const EditFoodItem = ({foodItem}) => {
     }
 
     useEffect(() => {
-        setFoodName(foodItem.food_name);
-        setFoodPrice(foodItem.food_price);
-        setFoodPath(foodItem.img_path);
-        setDescription(foodItem.description);
-    }, []);
+        setFoodName(food_name);
+        setFoodPrice(food_price);
+        setFoodPath(img_path);
+        setDescription(description);
+
+    }, [food_name, food_price, img_path, description]);
 
 
     return (
@@ -55,35 +68,36 @@ const EditFoodItem = ({foodItem}) => {
                         <Card>
                             <form method={'post'} onSubmit={handleForm}>
                                 <div>
-                                    <h4>Add New Food Item</h4>
+                                    <h4>Edit New Food Item</h4>
                                     <div className={'card-body'}>
+
                                         <div className="input-group mb-3">
 
                                             <span className="input-group-text" id="basic-addon1">Food Name</span>
                                             <input type="text" className="form-control" placeholder="Food Name"
-                                                   value={food_name}
+                                                   value={foodName}
                                                    onChange={(e) => setFoodName(e.target.value)}
                                             />
 
                                         </div>
+
                                         <div className={'text-start mb-3'}>
                                             {
-                                                error && !food_name ?
+                                                error && !foodName ?
                                                     <span className={'text-danger'}>Name is required.</span>
                                                     : ''
                                             }
                                         </div>
-
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Price</span>
                                             <input type="text" className="form-control" placeholder="Price"
-                                                   value={food_price}
+                                                   value={foodPrice}
                                                    onChange={(e) => setFoodPrice(e.target.value)}
                                             />
                                         </div>
                                         <div className={'text-start mb-3'}>
                                             {
-                                                error && !food_price ?
+                                                error && !foodPrice ?
                                                     <span className={'text-danger'}>Price is required.</span>
                                                     : ''
                                             }
@@ -91,13 +105,13 @@ const EditFoodItem = ({foodItem}) => {
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Path</span>
                                             <input type="text" className="form-control" placeholder="Path"
-                                                   value={img_path}
+                                                   value={foodPath}
                                                    onChange={(e) => setFoodPath(e.target.value)}
                                             />
                                         </div>
                                         <div className={'text-start mb-3'}>
                                             {
-                                                error && !img_path ?
+                                                error && !foodPath ?
                                                     <span className={'text-danger'}>Image is required.</span>
                                                     : ''
                                             }
@@ -105,13 +119,13 @@ const EditFoodItem = ({foodItem}) => {
                                         <div className="input-group mb-3">
                                             <span className="input-group-text" id="basic-addon1">Description</span>
                                             <input type="text" className="form-control" placeholder="Description"
-                                                   value={description}
+                                                   value={Description}
                                                    onChange={(e) => setDescription(e.target.value)}
                                             />
                                         </div>
                                         <div className={'text-start mb-3'}>
                                             {
-                                                error && !description ?
+                                                error && !Description ?
                                                     <span className={'text-danger'}>Description is required.</span>
                                                     : ''
                                             }
