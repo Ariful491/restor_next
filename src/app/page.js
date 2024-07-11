@@ -1,14 +1,35 @@
+"use client"
 import AppLayout from "@/app/_components/layouts/App";
 import {Col, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
+import {useEffect, useState} from "react";
+import {NextResponse as response} from "next/server";
 
 
 export default function Home() {
 
+
+    const [locations, setLocations] = useState([]);
+
+    const getLocation = async () => {
+        let response = await fetch('http://localhost:3000/api/customer/locations', {
+            method: 'GET'
+        })
+        let data = await response.json();
+        setLocations(data.result)
+    }
+
+    useEffect(() => {
+        getLocation();
+    }, [])
+
     const styles = {
         bgImage: {
-            background: 'url("https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+            backgroundImage: 'url("https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
             repeat: 'no-repeat',
             backgroundSize: 'cover',
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            backgroundBlendMode: 'multiply'
+
         },
         cardHeight: {
             height: '500px',
@@ -26,19 +47,31 @@ export default function Home() {
 
                             }}>
                                 <div className='card-body text-white' style={styles.bgImage}>
-                                    <center className="col-md-6 mx-auto text-danger mt-5">
-                                        <h4>
+                                    <center className="col-md-8 mx-auto  mt-5">
+                                        <h4 className="fw-bolder   py-3 rounded-5 my-5">
                                             FOOD DELIVERY APP
                                         </h4>
-                                        <div className="input-group mb-3 mt-4">
 
-                                            <span className="input-group-text">PRODUCT NAME</span>
-                                            <div className="form-floating">
-                                                <input type="text" className="form-control" id="floatingInputGroup1"
-                                                       placeholder="Search"/>
-                                                <label htmlFor="floatingInputGroup1">Search</label>
-                                            </div>
+                                        <div className="input-group">
+
+                                            <select className="form-controller form-control-lg">
+                                                <option value=''>Select Location</option>
+
+                                                {
+                                                    locations.map((item, key) => {
+                                                        if (item) {
+                                                            return <option key={key} value={item}>{item}</option>;
+                                                        }
+
+                                                    })
+                                                }
+                                            </select>
+
+
+                                            <input type="text" placeholder="Enter food or restuarant name"
+                                                   className="form-control py-3 w-50 form-control-lg"/>
                                         </div>
+
                                     </center>
                                 </div>
                             </div>
