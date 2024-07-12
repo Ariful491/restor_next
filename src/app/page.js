@@ -6,10 +6,10 @@ import {useEffect, useState} from "react";
 
 export default function Home() {
 
-
     const [locations, setLocations] = useState([]);
+    const [restaurant, setRestaurant] = useState([]);
 
-    const getLocation = async () => {
+    const loadLocation = async () => {
         let response = await fetch('http://localhost:3000/api/customer/locations', {
             method: 'GET'
         })
@@ -18,8 +18,18 @@ export default function Home() {
     }
 
     useEffect(() => {
-        getLocation();
+        loadLocation().then(r => console.log(r));
+        loadRestaurant();
+
     }, [])
+
+    const loadRestaurant = async () => {
+        let response = await fetch('http://localhost:3000/api/customer/', {
+            method: "GET"
+        })
+        let data = await response.json();
+        setRestaurant(data.result)
+    }
 
     const styles = {
         bgImage: {
@@ -57,7 +67,7 @@ export default function Home() {
                                                 <option value=''>Select Location</option>
 
                                                 {
-                                                  locations &&   locations.map((item, key) => {
+                                                    locations && locations.map((item, key) => {
                                                         if (item) {
                                                             return <option key={key} value={item}>{item}</option>;
                                                         }
@@ -75,6 +85,31 @@ export default function Home() {
                                 </div>
                             </div>
                         </Col>
+                    </Row>
+                    <Row>
+                        {
+                            restaurant && restaurant.map((item, key) => {
+                                if (item.city) {
+                                    return <Col xl={4} key={key}>
+                                        <a href="" className={'btn btn-warning  d-block py-4 m-2'}>
+                                            <h3 className={'m-3'}>
+                                                {item.city}
+                                            </h3>
+                                            <p className={'m-3'}>
+                                                Contact: {item.contact},
+                                            </p>
+                                            <p className={'m-3'}>
+                                                Email: {item.email}
+                                            </p>
+                                            <p className={'m-3'}>
+                                                 {item.address}
+                                            </p>
+                                        </a>
+                                    </Col>
+                                }
+                                return null;
+                            })
+                        }
                     </Row>
                 </main>
             </AppLayout>
