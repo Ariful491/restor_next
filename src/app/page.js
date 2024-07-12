@@ -23,12 +23,27 @@ export default function Home() {
 
     }, [])
 
-    const loadRestaurant = async () => {
-        let response = await fetch('http://localhost:3000/api/customer/', {
+    const loadRestaurant = async (params) => {
+        let url = 'http://localhost:3000/api/customer/';
+        if (params?.location) {
+            url = url + "?location=" + params.location
+        } else if (params?.restaurant) {
+            url = url + "?location=" + params.restaurant
+        }
+
+        let response = await fetch(url, {
             method: "GET"
         })
         let data = await response.json();
         setRestaurant(data.result)
+    }
+
+    const handleChangeLocation = (e) => {
+        loadRestaurant({location: e.target.value})
+    }
+
+    const handleSearchBox = (e) => {
+        loadRestaurant({restaurant: e.target.value})
     }
 
     const styles = {
@@ -63,7 +78,9 @@ export default function Home() {
 
                                         <div className="input-group">
 
-                                            <select className=" form-control form-control-lg">
+                                            <select className=" form-control form-control-lg"
+                                                    onChange={handleChangeLocation}
+                                            >
                                                 <option value=''>Select Location</option>
 
                                                 {
@@ -78,6 +95,7 @@ export default function Home() {
 
 
                                             <input type="text" placeholder="Enter food or restuarant name"
+                                                   onChange={handleSearchBox}
                                                    className="form-control py-3 w-50 form-control-lg"/>
                                         </div>
 
@@ -95,6 +113,7 @@ export default function Home() {
                                             <h3 className={'m-3'}>
                                                 {item.city}
                                             </h3>
+                                            {item.name}
                                             <p className={'m-3'}>
                                                 Contact: {item.contact},
                                             </p>
@@ -102,7 +121,7 @@ export default function Home() {
                                                 Email: {item.email}
                                             </p>
                                             <p className={'m-3'}>
-                                                 {item.address}
+                                                {item.address}
                                             </p>
                                         </a>
                                     </Col>
