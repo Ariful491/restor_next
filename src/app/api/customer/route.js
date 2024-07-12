@@ -1,11 +1,15 @@
 import {NextResponse} from "next/server";
-import dbConnect from '../../../lib/db';
+import dbConnect from '../../lib/db';
 import {userSchema} from "@/app/models/userModel";
-import {foodSchema} from "@/app/models/foodModel";
 
 
-export async function GET() {
-    await dbConnect();
+export async function GET(request) {
+
+    let location =  request.nextUrl.searchParams.get('location')
+
+    return NextResponse.json({result:location});
+/*
+  await dbConnect();
     try {
         const users = await userSchema.find({});
 
@@ -18,4 +22,6 @@ export async function GET() {
 
         return NextResponse.json({result: error})
     }
+
+ */
 }

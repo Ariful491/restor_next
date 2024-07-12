@@ -2,7 +2,6 @@
 import AppLayout from "@/app/_components/layouts/App";
 import {Col, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
 import {useEffect, useState} from "react";
-import {NextResponse as response} from "next/server";
 
 
 export default function Home() {
@@ -43,7 +42,7 @@ export default function Home() {
                     <Row>
                         <Col xl={12}>
                             <div className='card ' style={{
-                                height: "500px",
+                                height: "320px",
 
                             }}>
                                 <div className='card-body text-white' style={styles.bgImage}>
@@ -54,11 +53,11 @@ export default function Home() {
 
                                         <div className="input-group">
 
-                                            <select className="form-controller form-control-lg">
+                                            <select className=" form-control form-control-lg">
                                                 <option value=''>Select Location</option>
 
                                                 {
-                                                    locations.map((item, key) => {
+                                                  locations &&   locations.map((item, key) => {
                                                         if (item) {
                                                             return <option key={key} value={item}>{item}</option>;
                                                         }
