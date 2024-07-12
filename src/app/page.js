@@ -2,12 +2,15 @@
 import AppLayout from "@/app/_components/layouts/App";
 import {Col, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 
 
 export default function Home() {
 
     const [locations, setLocations] = useState([]);
     const [restaurant, setRestaurant] = useState([]);
+
+    const router = useRouter();
 
     const loadLocation = async () => {
         let response = await fetch('http://localhost:3000/api/customer/locations', {
@@ -18,7 +21,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        loadLocation().then(r => console.log(r));
+        loadLocation();
         loadRestaurant();
 
     }, [])
@@ -109,7 +112,9 @@ export default function Home() {
                             restaurant && restaurant.map((item, key) => {
                                 if (item.city) {
                                     return <Col xl={4} key={key}>
-                                        <a href="" className={'btn btn-warning  d-block py-4 m-2'}>
+                                        <a
+                                            onClick={() => router.push('explore/' + item.name)}
+                                            className={'btn btn-warning  d-block py-4 m-2'}>
                                             <h3 className={'m-3'}>
                                                 {item.city}
                                             </h3>
