@@ -113,7 +113,7 @@ export default function Home() {
                                 if (item.city) {
                                     return <Col xl={4} key={key}>
                                         <a
-                                            onClick={() => router.push('explore/' + item.name)}
+                                            onClick={() => router.push('explore/' + item.name + '/?id=' + item._id)}
                                             className={'btn btn-warning  d-block py-4 m-2'}>
                                             <h3 className={'m-3'}>
                                                 {item.city}
