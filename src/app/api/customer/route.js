@@ -8,6 +8,7 @@ export async function GET(request) {
     let queryParams = request.nextUrl.searchParams
     let searchText = queryParams.get('location');
     let restaurantText = queryParams.get('restaurant');
+    let restaurantId = queryParams.get('id');
     await dbConnect();
     let filter = {}
 
@@ -23,6 +24,10 @@ export async function GET(request) {
             name: {
                 $regex: new RegExp(restaurantText, 'i')
             }
+        }
+    } else if (restaurantId) {
+        filter = {
+            '_id': restaurantId
         }
     }
 
