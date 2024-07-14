@@ -3,11 +3,13 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import {useRouter, usePathname} from "next/navigation";
 
-const RestaurantHeader = () => {
+const RestaurantHeader = ({cartTotalProduct = 0}) => {
 
     const router = useRouter();
     const userPathName = usePathname();
     const [userDetails, setUserDetails] = useState();
+    const [cartTotal, setCartTotal] = useState(0);
+
 
     useEffect(() => {
         let data = localStorage.getItem('user');
@@ -19,6 +21,28 @@ const RestaurantHeader = () => {
         } else {
             setUserDetails(JSON.parse(data));
         }
+
+
+        const cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+        Object.values(cartDetails).forEach((item, index) => {
+            total += item.counter;
+        })
+        if (total > cartTotalProduct) {
+            setCartTotal(total);
+        } else {
+            setCartTotal(cartTotalProduct)
+        }
+
+
+        function totalCartCount(total, num) {
+            //  (total, item) => total + item.count
+            console.log("total")
+            console.log(total);
+            console.log("number")
+            console.log(num)
+        }
+
 
     }, []);
 
@@ -49,25 +73,6 @@ const RestaurantHeader = () => {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
 
-                            {
-                                !userDetails ?
-                                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                               role="button"
-                                               data-bs-toggle="dropdown" aria-expanded="false">
-                                                Category
-                                            </a>
-                                            <ul className="dropdown-menu  w-25 border-0 shadow-sm  rounded-2"
-                                                aria-labelledby="navbarDropdown">
-                                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                                <li><a className="dropdown-item" href="#">Another action</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    : ''
-                            }
-
 
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 {
@@ -85,26 +90,34 @@ const RestaurantHeader = () => {
                                             </li>
                                         </>
                                         :
+                                        <>
 
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                               role="button"
-                                               data-bs-toggle="dropdown" aria-expanded="false">
-                                                {userDetails?.name}
-                                            </a>
-                                            <ul className="dropdown-menu  w-25 border-0 shadow-sm  rounded-2"
-                                                aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item"
-                                                          href="/restaurant/dashboard">Dashboard</Link></li>
-                                                <li><a className="dropdown-item" href="#">Profile</a></li>
+                                            <li className="nav-item dropdown">
+                                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                                   role="button"
+                                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                                    {userDetails?.name}
+                                                </a>
+                                                <ul className="dropdown-menu  w-25 border-0 shadow-sm  rounded-2"
+                                                    aria-labelledby="navbarDropdown">
+                                                    <li><Link className="dropdown-item"
+                                                              href="/restaurant/dashboard">Dashboard</Link></li>
+                                                    <li><a className="dropdown-item" href="#">Profile</a></li>
 
-                                                <li className='dropdown-divider'></li>
-                                                <li><a className="dropdown-item" onClick={handleLogout}
-                                                       href="#">Logout</a></li>
-                                            </ul>
-                                        </li>
+                                                    <li className='dropdown-divider'></li>
+                                                    <li><a className="dropdown-item" onClick={handleLogout}
+                                                           href="#">Logout</a></li>
+                                                </ul>
+                                            </li>
+                                        </>
+
+
                                 }
-
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link  " href="#">
+                                        cart ({cartTotal})
+                                    </a>
+                                </li>
                             </ul>
 
 

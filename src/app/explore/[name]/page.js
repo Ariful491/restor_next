@@ -12,6 +12,9 @@ const Page = (props) => {
     const [restaurantName, setRestaurantName] = useState('');
     const [foods, setFoods] = useState([]);
     const [restaurant, setRestaurant] = useState({});
+    const [cartDetails, setCardDetails] = useState([]);
+    const [cartTotalProduct, setCartTotalProduct] = useState(0);
+
 
     const params = useParams();
     const {id} = props.searchParams;
@@ -42,6 +45,40 @@ const Page = (props) => {
         setFoods(data.result);
     }
 
+    const handleCart = (item) => {
+        setCartTotalProduct(prevTotal => prevTotal + 1)
+        setCardDetails(prevCartDetails => {
+            const existingItemIndex = prevCartDetails.findIndex(cartItem => cartItem._id === item._id);
+
+            if (existingItemIndex !== -1) {
+
+                const updatedCartDetails = [...prevCartDetails];
+
+                updatedCartDetails[existingItemIndex].counter += 1;
+
+                localStorage.setItem('cart', JSON.stringify(updatedCartDetails))
+                return updatedCartDetails;
+
+            } else {
+
+                const updatedCartDetails = [...prevCartDetails, {...item, counter: 1}];
+                setCartTotalProduct(prevState => prevState += 1)
+                localStorage.setItem('cart', JSON.stringify(updatedCartDetails))
+                return updatedCartDetails;
+            }
+
+
+        });
+        // const cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
+        // let total = 0;
+        // Object.values(cartDetails).forEach((item, index) => {
+        //     total += item.counter;
+        // })
+        // setCartTotalProduct(total)
+
+    }
+
+
     const styles = {
         bgImage: {
             backgroundImage: 'url("https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
@@ -57,7 +94,7 @@ const Page = (props) => {
     };
 
     return (
-        <AppLayout>
+        <AppLayout cartTotalProduct={cartTotalProduct}>
             <main>
                 <Row>
                     <Col xl={12}>
@@ -76,45 +113,45 @@ const Page = (props) => {
                     </Col>
                 </Row>
 
-              <div className={' bg-success text-white'}>
-                  <Container>
-                      <Row>
-                          <Col xl={3}  >
-                              <p className={'py-2'}>
-                                  contact:- {restaurant?.contact}
-                              </p>
+                <div className={' bg-success text-white'}>
+                    <Container>
+                        <Row>
+                            <Col xl={3}>
+                                <p className={'py-2'}>
+                                    contact:- {restaurant?.contact}
+                                </p>
 
-                          </Col>
+                            </Col>
 
-                          <Col xl={3}>
+                            <Col xl={3}>
 
-                              <p className={'py-2'}>
-                                  email:- {restaurant?.email}
-                              </p>
+                                <p className={'py-2'}>
+                                    email:- {restaurant?.email}
+                                </p>
 
-                          </Col>
+                            </Col>
 
-                          <Col xl={3}>
+                            <Col xl={3}>
 
-                              <p className={'py-2'}>
-                                  Address: {restaurant?.address}
-                              </p>
+                                <p className={'py-2'}>
+                                    Address: {restaurant?.address}
+                                </p>
 
-                          </Col>
+                            </Col>
 
-                          <Col xl={3}>
+                            <Col xl={3}>
 
-                              <p className={'py-2'}>
-                                  City: {restaurant?.city}
-                              </p>
+                                <p className={'py-2'}>
+                                    City: {restaurant?.city}
+                                </p>
 
-                          </Col>
+                            </Col>
 
-                      </Row>
-                  </Container>
+                        </Row>
+                    </Container>
 
 
-              </div>
+                </div>
                 <Row>
                     {
                         foods && foods.map((item, key) => {
@@ -131,7 +168,10 @@ const Page = (props) => {
                                             {item.description}
                                         </p>
                                         <div className={'text-end'}>
-                                            <a href="#" className="btn btn-success">Add To Cart</a>
+                                            <button onClick={() => handleCart(item)} className="btn btn-success">Add To
+                                                Cart
+                                            </button>
+
                                         </div>
                                     </div>
                                 </div>
