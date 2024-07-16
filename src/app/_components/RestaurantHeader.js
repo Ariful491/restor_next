@@ -1,15 +1,17 @@
 "use client"
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {useRouter, usePathname} from "next/navigation";
+import {CartContext} from "@/app/explore/[name]/page";
 
-const RestaurantHeader = ({cartTotalProduct = 0}) => {
+const RestaurantHeader = () => {
 
     const router = useRouter();
     const userPathName = usePathname();
     const [userDetails, setUserDetails] = useState();
-    const [cartTotal, setCartTotal] = useState(0);
 
+
+    const cartValueTotal = useContext(CartContext)
 
     useEffect(() => {
         let data = localStorage.getItem('user');
@@ -23,25 +25,7 @@ const RestaurantHeader = ({cartTotalProduct = 0}) => {
         }
 
 
-        const cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
-        let total = 0;
-        Object.values(cartDetails).forEach((item, index) => {
-            total += item.counter;
-        })
-        if (total > cartTotalProduct) {
-            setCartTotal(total);
-        } else {
-            setCartTotal(cartTotalProduct)
-        }
 
-
-        function totalCartCount(total, num) {
-            //  (total, item) => total + item.count
-            console.log("total")
-            console.log(total);
-            console.log("number")
-            console.log(num)
-        }
 
 
     }, []);
@@ -115,7 +99,7 @@ const RestaurantHeader = ({cartTotalProduct = 0}) => {
                                 }
                                 <li className="nav-item dropdown">
                                     <a className="nav-link  " href="#">
-                                        cart ({cartTotal})
+                                        cart ({cartValueTotal})
                                     </a>
                                 </li>
                             </ul>

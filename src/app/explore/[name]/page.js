@@ -4,8 +4,9 @@ import AppLayout from "@/app/_components/layouts/App";
 import {Col, Container, Row} from "@/app/_components/helperComponents/BootstrapStyleHelper";
 import {useParams} from "next/navigation";
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
+export const CartContext = React.createContext('');
 
 const Page = (props) => {
 
@@ -14,7 +15,6 @@ const Page = (props) => {
     const [restaurant, setRestaurant] = useState({});
     const [cartDetails, setCardDetails] = useState([]);
     const [cartTotalProduct, setCartTotalProduct] = useState(0);
-
 
     const params = useParams();
     const {id} = props.searchParams;
@@ -62,7 +62,6 @@ const Page = (props) => {
             } else {
 
                 const updatedCartDetails = [...prevCartDetails, {...item, counter: 1}];
-                setCartTotalProduct(prevState => prevState += 1)
                 localStorage.setItem('cart', JSON.stringify(updatedCartDetails))
                 return updatedCartDetails;
             }
@@ -70,11 +69,7 @@ const Page = (props) => {
 
         });
         // const cartDetails = JSON.parse(localStorage.getItem('cart')) || [];
-        // let total = 0;
-        // Object.values(cartDetails).forEach((item, index) => {
-        //     total += item.counter;
-        // })
-        // setCartTotalProduct(total)
+
 
     }
 
@@ -94,95 +89,97 @@ const Page = (props) => {
     };
 
     return (
-        <AppLayout cartTotalProduct={cartTotalProduct}>
-            <main>
-                <Row>
-                    <Col xl={12}>
-                        <div className='card ' style={{
-                            height: "320px",
+        <CartContext.Provider value={cartTotalProduct}>
+            <AppLayout>
+                <main>
+                    <Row>
+                        <Col xl={12}>
+                            <div className='card ' style={{
+                                height: "320px",
 
-                        }}>
-                            <div className='card-body text-white' style={styles.bgImage}>
-                                <center className="col-md-8 mx-auto  mt-5">
-                                    <h4 className='fw-bolder'>
-                                        {restaurantName}
-                                    </h4>
-                                </center>
+                            }}>
+                                <div className='card-body text-white' style={styles.bgImage}>
+                                    <center className="col-md-8 mx-auto  mt-5">
+                                        <h4 className='fw-bolder'>
+                                            {restaurantName}
+                                        </h4>
+                                    </center>
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
 
-                <div className={' bg-success text-white'}>
-                    <Container>
-                        <Row>
-                            <Col xl={3}>
-                                <p className={'py-2'}>
-                                    contact:- {restaurant?.contact}
-                                </p>
+                    <div className={' bg-success text-white'}>
+                        <Container>
+                            <Row>
+                                <Col xl={3}>
+                                    <p className={'py-2'}>
+                                        contact:- {restaurant?.contact}
+                                    </p>
 
-                            </Col>
+                                </Col>
 
-                            <Col xl={3}>
+                                <Col xl={3}>
 
-                                <p className={'py-2'}>
-                                    email:- {restaurant?.email}
-                                </p>
+                                    <p className={'py-2'}>
+                                        email:- {restaurant?.email}
+                                    </p>
 
-                            </Col>
+                                </Col>
 
-                            <Col xl={3}>
+                                <Col xl={3}>
 
-                                <p className={'py-2'}>
-                                    Address: {restaurant?.address}
-                                </p>
+                                    <p className={'py-2'}>
+                                        Address: {restaurant?.address}
+                                    </p>
 
-                            </Col>
+                                </Col>
 
-                            <Col xl={3}>
+                                <Col xl={3}>
 
-                                <p className={'py-2'}>
-                                    City: {restaurant?.city}
-                                </p>
+                                    <p className={'py-2'}>
+                                        City: {restaurant?.city}
+                                    </p>
 
-                            </Col>
+                                </Col>
 
-                        </Row>
-                    </Container>
+                            </Row>
+                        </Container>
 
 
-                </div>
-                <Row>
-                    {
-                        foods && foods.map((item, key) => {
-                            return <Col xl={4} key={key}>
-                                <div className="card m-4">
-                                    <img
-                                        src={item.img_path}
-                                        className="card-img-top" alt={item.food_name}/>
-                                    <div className="card-body">
-                                        <h5 className="card-title">
-                                            {item.food_name}
-                                        </h5>
-                                        <p className="card-text">
-                                            {item.description}
-                                        </p>
-                                        <div className={'text-end'}>
-                                            <button onClick={() => handleCart(item)} className="btn btn-success">Add To
-                                                Cart
-                                            </button>
+                    </div>
+                    <Row>
+                        {
+                            foods && foods.map((item, key) => {
+                                return <Col xl={4} key={key}>
+                                    <div className="card m-4">
+                                        <img
+                                            src={item.img_path}
+                                            className="card-img-top" alt={item.food_name}/>
+                                        <div className="card-body">
+                                            <h5 className="card-title">
+                                                {item.food_name}
+                                            </h5>
+                                            <p className="card-text">
+                                                {item.description}
+                                            </p>
+                                            <div className={'text-end'}>
+                                                <button onClick={() => handleCart(item)} className="btn btn-success">Add To
+                                                    Cart
+                                                </button>
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Col>
-                        })
-                    }
+                                </Col>
+                            })
+                        }
 
-                </Row>
+                    </Row>
 
-            </main>
-        </AppLayout>
+                </main>
+            </AppLayout>
+        </CartContext.Provider>
     )
 }
 
